@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Self RPG</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__title">Status</div>
+  <button class="icon-btn" id="openSettingsBtn" title="Настройки">⚙️</button>
+</header>
+
+<main class="container">
+
+  <!-- STATUS -->
+  <section class="card">
+    <div class="card__head">
+      <div>
+        <div class="card__title">Attribute Radar Chart</div>
+        <div class="card__subtitle">Уровни атрибутов</div>
+      </div>
+      <button class="pill-btn" id="resetDemoBtn">Reset</button>
+    </div>
+
+    <div class="radar-wrap">
+      <canvas id="radarCanvas"></canvas>
+    </div>
+  </section>
+
+  <!-- ATTRIBUTES -->
+  <section class="section">
+    <div class="section__head">
+      <h2>Attributes</h2>
+      <button class="btn" id="addAttributeBtn">+ Атрибут</button>
+    </div>
+    <div class="grid" id="attributesGrid"></div>
+  </section>
+
+  <!-- TASKS -->
+  <section class="section">
+    <div class="section__head">
+      <h2>Tasks</h2>
+      <button class="btn" id="addActionBtn">+ Действие</button>
+    </div>
+    <div class="list" id="actionsList"></div>
+  </section>
+
+
+  <!-- ATTRIBUTE SCENE (hidden by default) -->
+  <section class="section hidden" id="attributeScene">
+    <div class="scene-head">
+      <button class="back-btn" id="backToMainBtn">←</button>
+      <div class="scene-title" id="sceneTitle">Атрибут</div>
+      <div style="width:40px;"></div>
+    </div>
+
+    <div class="card scene-card">
+      <div class="scene-attr-top">
+        <div class="scene-icon" id="sceneIcon">🧠</div>
+        <div class="scene-meta">
+          <div class="scene-name" id="sceneName">Эрудиция</div>
+          <div class="scene-level" id="sceneLevel">Lv.1</div>
+        </div>
+      </div>
+
+      <div class="progress"><div id="sceneProgressBar" style="width:0%"></div></div>
+
+      <div class="attr-xp">
+        <span id="sceneXpInLevel">0 / 150</span>
+        <span id="sceneXpTotal">0 XP</span>
+      </div>
+    </div>
+
+    <div class="section__head" style="margin-top:12px;">
+      <h2>Действия для атрибута</h2>
+    </div>
+
+    <div class="list" id="attributeActionsList"></div>
+  </section>
+
+</main>
+
+<!-- MODAL BACKDROP -->
+<div class="backdrop hidden" id="backdrop"></div>
+
+<!-- MODAL: ADD ATTRIBUTE -->
+<div class="modal hidden" id="attrModal">
+  <div class="modal__header">
+    <div class="modal__title">Новый атрибут</div>
+    <button class="icon-btn" data-close>✖</button>
+  </div>
+
+  <div class="modal__body">
+    <label class="field">
+      <span>Название</span>
+      <input id="attrName" placeholder="Эрудиция" maxlength="20" />
+    </label>
+
+    <label class="field">
+      <span>Иконка (emoji)</span>
+     <input id="attrIcon" placeholder="Напр. 🧠" maxlength="2" />
+    </label>
+
+    <button class="btn btn--primary" id="saveAttrBtn">Сохранить</button>
+  </div>
+</div>
+
+<!-- MODAL: ADD ACTION -->
+<div class="modal hidden" id="actionModal">
+  <div class="modal__header">
+    <div class="modal__title">Новое действие</div>
+    <button class="icon-btn" data-close>✖</button>
+  </div>
+
+  <div class="modal__body">
+    <label class="field">
+      <span>Название</span>
+      <input id="actionName" placeholder="Чтение книги" maxlength="30" />
+    </label>
+
+    <label class="field">
+      <span>Тип</span>
+      <select id="actionType">
+        <option value="daily">Ежедневное (можно нажимать много раз)</option>
+        <option value="once">Единоразовое</option>
+      </select>
+    </label>
+
+    <div class="divider"></div>
+
+    <div class="small-title">Награды (можно несколько атрибутов)</div>
+    <div class="rewards" id="rewardsBuilder"></div>
+
+    <button class="link-btn" id="addRewardRowBtn">+ Добавить атрибут в награду</button>
+
+    <button class="btn btn--primary" id="saveActionBtn">Сохранить действие</button>
+  </div>
+</div>
+
+<!-- MODAL: SETTINGS -->
+<div class="modal hidden" id="settingsModal">
+  <div class="modal__header">
+    <div class="modal__title">Настройки</div>
+    <button class="icon-btn" data-close>✖</button>
+  </div>
+
+  <div class="modal__body">
+    <button class="btn" id="exportBtn">Экспорт данных</button>
+    <button class="btn btn--primary" id="saveToTelegramBtn">Сохранить в Telegram</button>
+    <button class="btn" id="importBtn">Импорт данных</button>
+
+    <textarea id="ioArea" class="ioArea" placeholder="Вставь сюда JSON (экспорт) ИЛИ RPG_BACKUP из Telegram для импорта"></textarea>
+
+    <button class="btn btn--danger" id="wipeBtn">Стереть всё</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
